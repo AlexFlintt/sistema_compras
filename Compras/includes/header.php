@@ -41,7 +41,7 @@
                
             </li>
             <li>
-                <a href="#">Solicitantes</a>
+                <a href="orden/orden_compra.php">Orden Compra</a>
             </li>
             <li>
                 <a href="uni_med/uni_med.php">Unidades De Medidas</a>

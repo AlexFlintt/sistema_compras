@@ -35,8 +35,8 @@ CREATE TABLE `articulo` (
   `id` int(11) NOT NULL,
   `descripcion` text COLLATE utf8_unicode_ci NOT NULL,
   `marca` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `unidad_medida` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `existencia` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `unidad_medida_id` int(10) NOT NULL,
+  `existencia` int(10) NOT NULL,
   `estado` varchar(10) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -44,8 +44,9 @@ CREATE TABLE `articulo` (
 -- Volcado de datos para la tabla `articulo`
 --
 
-INSERT INTO `articulo` (`id`, `descripcion`, `marca`, `unidad_medida`, `existencia`, `estado`) VALUES
-(1, 'Es una cerveza rubia de carácter ligero y muy agradable al paladar, además con pocas calorías.', 'Presidente', 'oz', 'agotado', 'Activo');
+INSERT INTO `articulo` (`id`, `descripcion`, `marca`, `unidad_medida_id`, `existencia`, `estado`) VALUES
+(1, 'cerveza', 'Presidente', 1, 10, 'Activo'),
+(2, 'Agua', 'Agua Dasani', 1, 15, 'Activo');
 
 -- --------------------------------------------------------
 
@@ -79,14 +80,19 @@ INSERT INTO `departamentos` (`id`, `nombre`, `estado`) VALUES
 --
 
 CREATE TABLE `orden_compra` (
+
+  `id` int(11) NOT NULL,
   `num_orden` int(11) NOT NULL,
   `fecha_orden` timestamp NOT NULL DEFAULT current_timestamp(),
   `estado` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `articulo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `articulo_id` int(10) NOT NULL,
   `cantidad` int(10) NOT NULL,
-  `unidad_medida` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
-  `costo_unitario` int(15) NOT NULL
+  `unidad_medida_id` int(10) NOT NULL,
+  `costo_unitario` int(15) NOT NULL,
+  `costo_total` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 -- --------------------------------------------------------
 
@@ -98,7 +104,7 @@ CREATE TABLE `orden_compra` (
 
 CREATE TABLE `proveedor` (
   `id` int(11) NOT NULL,
-  `cedula` int(11) NOT NULL,
+  `rnc_cedula` int(11) NOT NULL,
   `nombre_comercial` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `estado` varchar(10) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -113,6 +119,7 @@ CREATE TABLE `proveedor` (
 
 CREATE TABLE `unidad_medida` (
   `id` int(11) NOT NULL,
+  `cod` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
   `descripcion` text COLLATE utf8_unicode_ci NOT NULL,
   `estado` varchar(10) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -121,8 +128,8 @@ CREATE TABLE `unidad_medida` (
 -- Volcado de datos para la tabla `unidad_medida`
 --
 
-INSERT INTO `unidad_medida` (`id`, `descripcion`, `estado`) VALUES
-(1, 'Una onza líquida es una medida de volumen del sistema Avoirdupois, utilizada  para indicar el contenido de algunos recipientes', 'Activo');
+INSERT INTO `unidad_medida` (`id`, `cod`, `descripcion`, `estado`) VALUES
+(1, 'onz', 'Una onza líquida es una medida de volumen del sistema Avoirdupois, utilizada  para indicar el contenido de algunos recipientes', 'Activo');
 
 --
 -- Índices para tablas volcadas
@@ -144,7 +151,7 @@ ALTER TABLE `departamentos`
 -- Indices de la tabla `orden_compra`
 --
 ALTER TABLE `orden_compra`
-  ADD PRIMARY KEY (`num_orden`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `proveedor`
@@ -178,7 +185,7 @@ ALTER TABLE `departamentos`
 -- AUTO_INCREMENT de la tabla `orden_compra`
 --
 ALTER TABLE `orden_compra`
-  MODIFY `num_orden` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
